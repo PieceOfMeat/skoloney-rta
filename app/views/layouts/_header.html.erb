@@ -1,0 +1,14 @@
+<header class="navbar">
+  
+  <div class="navbar-inner">
+    <%= link_to "Advert system", root_path, :class => "brand" %>
+    <nav>
+      <ul class="nav pull-right">
+        <li><%= link_to "Home Page",    root_path %></li>
+      </ul>
+    </nav>
+  </div>
+
+  <h1><%= yield(:title) %></h1>
+
+</header>
