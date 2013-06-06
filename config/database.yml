@@ -12,7 +12,7 @@ test:
   adapter: postgresql
   host: localhost
   encoding: utf8
-  database: skoloney_rta
+  database: skoloney_rta_test
   username: skoloney
   password: skoloney
 
