@@ -17,90 +17,71 @@ describe User do
       zip: "83062"
     )
   end
-  subject { @user }
 
-
-  describe "Model attributes" do
-    it { should respond_to(:address, :birthday, :city, :country, :email, :full_name, :login, :password, :password_confirm, :state, :zip) }
+  it "should contain attributes" do
+    expect(@user).to respond_to(:address, :birthday, :city, :country, :email, :full_name, :login, :password, :password_confirm, :state, :zip)
   end
 
-  describe "Model validation" do
-    it { should be_valid }
-  end
+  describe "validation" do
 
-  describe "Absence of full name" do
-    before { @user.full_name = " " }
-    it { should_not be_valid }
-  end
+    it "should pass validation" do
+      expect(@user).to be_valid
+    end
 
-  describe "Absence of email" do
-    before { @user.email = "" }
-    it { should_not be_valid }
-  end
+    it "should verify presence of login and email" do
+      @user.full_name = " "
+      expect(@user).not_to be_valid
 
-  describe "Invalid email format" do
-    it "should be invalid" do
+      @user.full_name = "Sergey Koloney"
+      @user.email = ""
+      expect(@user).not_to be_valid
+    end
 
-      incorrect_emails = %w[
-        user@foo,com
-        user_at_foo.org
-        example.user@foo.foo@bar_baz.com
-        foo@bar+baz.com
-      ]
+    it "should not validate incorrect email addresses" do
+      %w[user@foo,com
+         user_at_foo.org
+         example.user@foo.foo@bar_baz.com
+         foo@bar+baz.com].each do |email|
 
-      incorrect_emails.each do |email|
         @user.email = email
-        @user.should_not be_valid
+        expect(@user).not_to be_valid
       end
     end
-  end
 
-  describe "Valid email format" do
-    it "should be valid" do
+    it "should validate correct email addresses" do
+      %w[first.last@gmail.jp
+         ThE_EmAiL@foo.bar.baz
+         quux@bar.baz].each do |email|
 
-      correct_emails = %w[
-        first.last@gmail.jp
-        ThE_EmAiL@foo.bar.baz
-        quux@bar.baz
-      ]
-      
-      correct_emails.each do |email|
         @user.email = email
-        @user.should be_valid
+        expect(@user).to be_valid
       end
     end
-  end
 
-  describe "Email should be unique" do
-    before do
+    it "should verify uniqueness of email" do
       dup_user = @user.dup
       dup_user.email = dup_user.email.upcase
       dup_user.save
+      expect(@user).not_to be_valid
     end
 
-    it { should_not be_valid }
-  end
-
-  describe "Login should be unique" do
-    before do
-      p @user.login
+    it "should verify uniqueness of login" do
       dup_user = @user.dup
       dup_user.login = dup_user.login.upcase
       dup_user.save
+      expect(@user).not_to be_valid
     end
-
-    it { should_not be_valid }
   end
 
-  describe "Login and email gets downcased when storing model" do
-    it "should be downcased" do
-      @user.email = "SERGEY.KOLONEY@GMAIL.COM"
-      @user.login = "PIECEOFMEAT"
-      @user.save
+  it "should downcase login and email upon saving" do
+    @user.email = "SERGEY.KOLONEY@GMAIL.COM"
+    @user.login = "PIECEOFMEAT"
+    @user.save
 
-      @user.login.should_not =~ /[A-Z]/ && @user.email.should_not =~ /[A-Z]/
-    end
-    
-  end
+    expect(@user.login).not_to match(/[A-Z]/)
+    expect(@user.email).not_to match(/[A-Z]/)
+ end
+
+ 
 
 end

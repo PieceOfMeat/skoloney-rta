@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   :login, :password, :password_confirm, :state, :zip
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  MIN_BIRTHDAY = Date.parse('1900-01-01')
 
   validates :address, :birthday, :city, :country, :email, :full_name, :login,
   :password, :password_confirm, :state, :zip, presence: true, length: { maximum: 255 }
