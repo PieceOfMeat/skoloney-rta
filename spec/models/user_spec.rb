@@ -1,28 +1,8 @@
 require 'spec_helper'
 
-
-RSpec.configure do |c|
-  c.filter_run_excluding :broken => true
-end
-
-
 describe User do
 
-  before do
-    @user = User.new(
-      address: "Sanatornaya 9/2",
-      birthday: "1986-09-02",
-      city: "Donetsk",
-      country: "Ukraine",
-      email: "sergey.koloney@gmail.com",
-      full_name: "Sergey Koloney",
-      login: "pieceofmeat",
-      password: "123456",
-      password_confirmation: "123456",
-      state: "Donetsk",
-      zip: "83062"
-    )
-  end
+  before { @user = FactoryGirl.build(:user) }
   subject { @user }
 
   it "should contain attributes" do
