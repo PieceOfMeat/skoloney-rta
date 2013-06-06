@@ -1,0 +1,46 @@
+
+%h1 User Profile
+
+%p#notice
+  = notice
+
+%p
+  %b Login:
+  = @user.login
+
+
+%p
+  %b Full name:
+  = @user.full_name
+
+%p
+  %b Birthday:
+  = @user.birthday
+
+%p
+  %b Email:
+  = @user.email
+
+%p
+  %b Address:
+  = @user.address
+
+%p
+  %b City:
+  = @user.city
+
+%p
+  %b State:
+  = @user.state
+
+%p
+  %b Country:
+  = @user.country
+
+%p
+  %b Zip:
+  = @user.zip
+
+= link_to 'Edit', edit_user_path(@user)
+|
+= link_to 'Back', users_path

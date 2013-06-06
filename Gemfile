@@ -4,6 +4,7 @@ gem 'rails', '3.2.13'
 gem 'pg'
 gem 'jquery-rails'
 gem 'bootstrap-sass'
+gem 'haml-rails'
 gem 'bcrypt-ruby'
 
 # Bundle edge Rails instead:

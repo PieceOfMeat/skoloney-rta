@@ -1,0 +1,10 @@
+%header.navbar
+  
+  .navbar-inner
+    = link_to "Advert system", root_path, :class => "brand"
+
+    %nav
+      %ul.nav.pull-right
+        %li= link_to "Home Page", root_path
+
+  %h1= yield(:title)
