@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   :login, :password, :password_confirmation, :state, :zip
 
   has_secure_password
+  acts_as_gmappable :check_process => false
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -17,5 +18,10 @@ class User < ActiveRecord::Base
   before_save do |user|
     user.email = email.downcase
     user.login = login.downcase
+  end
+
+
+  def gmaps4rails_address
+    "#{address}, #{zip}, #{city}, #{state}, #{country}" 
   end
 end

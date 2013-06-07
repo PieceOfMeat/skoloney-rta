@@ -1,4 +1,4 @@
-= form_for(@user) do |f|
+= form_for @user, :html => {:class => "form-horizontal"} do |f|
   - if @user.errors.any?
     .error_explanation
       %h2= pluralize(@user.errors.count, "error")
@@ -8,60 +8,76 @@
         - @user.errors.full_messages.each do |msg|
           %li= msg
 
-  .field
-    = f.label :login
-    %br
-    = f.text_field :login
+  %fieldset
+    %legend General info
 
-  .field
-    = f.label :full_name
-    %br
-    = f.text_field :full_name
-  
-  .field
-    = f.label :birthday
-    %br
-    = f.date_select :birthday
+    .control-group
+      = f.label :login, :class => 'control-label'
+      .controls
+        = f.text_field :login
 
-  .field
-    = f.label :email
-    %br
-    = f.text_field :email
+    .control-group
+      = f.label :email, :class => 'control-label'
+      .controls
+        = f.text_field :email
 
-  .field
-    = f.label :address
-    %br
-    = f.text_field :address
+    .control-group
+      = f.label :full_name, :class => 'control-label'
+      .controls
+        = f.text_field :full_name
 
-  .field
-    = f.label :city
-    %br
-    = f.text_field :city
+    .control-group
+      = f.label :birthday, :class => 'control-label'
+      .controls
+        = f.date_select :birthday, {}, { :class => "input-small" }
 
-  .field
-    = f.label :state
-    %br
-    = f.text_field :state
+    .control-group
+      = f.label :password, :class => 'control-label'
+      .controls
+        = f.text_field :password
 
-  .field
-    = f.label :country
-    %br
-    = f.text_field :country
+    .control-group
+      = f.label :password_confirmation, :class => 'control-label'
+      .controls
+        = f.text_field :password_confirmation
 
-  .field
-    = f.label :zip
-    %br
-    = f.text_field :zip
+  .clearfix
 
-  .field
-    = f.label :password
-    %br
-    = f.text_field :password
+  %fieldset
+    %legend Location
 
-  .field
-    = f.label :password_confirmation
-    %br
-    = f.text_field :password_confirmation
+    .control-group
+      = f.label :country, :class => 'control-label'
+      .controls
+        = f.text_field :country
+
+    .control-group
+      = f.label :state, :class => 'control-label'
+      .controls
+        = f.text_field :state
+
+    .control-group
+      = f.label :city, :class => 'control-label'
+      .controls
+        = f.text_field :city
+
+    .control-group
+      = f.label :address, :class => 'control-label'
+      .controls
+        = f.text_field :address
+
+    .control-group
+      = f.label :zip, :class => 'control-label'
+      .controls
+        = f.text_field :zip
+
+  .clearfix
+
+  = gmaps(:map_options => { :container_class => "map_container span5",
+                          :auto_zoom => false,
+                          :zoom => 16 },
+        :markers => { :data => map_marker_for(@user)} )
 
   .actions
     = f.submit
+

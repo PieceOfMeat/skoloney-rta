@@ -32,6 +32,8 @@ describe "UserPages" do
       expect(page).to have_content(user.email)
 
       expect(page).to have_content('02.09.1986')
+
+      expect(page).to have_selector('div.map_container')
     end
   end
 

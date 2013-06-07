@@ -11,4 +11,12 @@ module UsersHelper
     image_tag(gravatar_url, alt: user.full_name, class: "gravatar")
   end
 
+
+  def map_marker_for(user)
+    @json = user.to_gmaps4rails do |user, marker|
+      marker.json :id => user.id,
+                  :title => "Location of user #{user.login}"
+    end
+  end
+
 end

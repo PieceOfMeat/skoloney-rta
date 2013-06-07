@@ -6,7 +6,7 @@
 %p#notice
   = notice
 
-%dl.dl-horizontal
+%dl.dl-horizontal.span6
   %dt Full name
   %dd= @user.full_name
 
@@ -31,8 +31,12 @@
   %dt Zip
   %dd= @user.zip
 
+= gmaps(:map_options => { :container_class => "map_container span5",
+                          :auto_zoom => false,
+                          :zoom => 16 },
+        :markers => { :data => map_marker_for(@user)} )
+.clearfix
+
 = link_to 'Edit', edit_user_path(@user)
 |
 = link_to 'Back', users_path
-
-<%= gmaps4rails(@gmapsjson) %>
