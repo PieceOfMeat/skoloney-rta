@@ -1,46 +1,38 @@
 
-%h1 User Profile
+%h1
+  = gravatar_for(@user)
+  = @user.login
 
 %p#notice
   = notice
 
-%p
-  %b Login:
-  = @user.login
+%dl.dl-horizontal
+  %dt Full name
+  %dd= @user.full_name
 
+  %dt Email
+  %dd= link_to @user.email, "mailto:#{@user.email}"
 
-%p
-  %b Full name:
-  = @user.full_name
+  %dt Birthday
+  %dd= birthday_for(@user)
 
-%p
-  %b Birthday:
-  = @user.birthday
+  %dt Country
+  %dd= @user.country
 
-%p
-  %b Email:
-  = @user.email
+  %dt State
+  %dd= @user.state
 
-%p
-  %b Address:
-  = @user.address
+  %dt City
+  %dd= @user.city
 
-%p
-  %b City:
-  = @user.city
-
-%p
-  %b State:
-  = @user.state
-
-%p
-  %b Country:
-  = @user.country
-
-%p
-  %b Zip:
-  = @user.zip
+  %dt Address
+  %dd= @user.address
+  
+  %dt Zip
+  %dd= @user.zip
 
 = link_to 'Edit', edit_user_path(@user)
 |
 = link_to 'Back', users_path
+
+<%= gmaps4rails(@gmapsjson) %>
