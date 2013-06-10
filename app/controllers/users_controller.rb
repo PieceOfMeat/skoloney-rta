@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+
+  USER_PROFILE_CREATED_MESSAGE = "Your profile was successfully created"
+
   # GET /users
   # GET /users.json
   def index
@@ -44,7 +47,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'User was successfully created.' }
+        format.html { redirect_to @user, notice: USER_PROFILE_CREATED_MESSAGE }
         format.json { render json: @user, status: :created, location: @user }
       else
         format.html { render action: "new" }

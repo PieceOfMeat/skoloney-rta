@@ -3,7 +3,6 @@ require 'spec_helper'
 describe User do
 
   before { @user = FactoryGirl.build(:user) }
-  subject { @user }
 
   it "should contain attributes" do
     expect(@user).to respond_to(:address, :birthday, :city, :country, :email, 
@@ -12,12 +11,9 @@ describe User do
                                 :state, :zip, :authenticate)
   end
 
-  it "should downcase login and email upon saving" do
+  it "should downcase email upon saving" do
     @user.email = "SERGEY.KOLONEY@GMAIL.COM"
-    @user.login = "PIECEOFMEAT"
     @user.save
-
-    expect(@user.login).not_to match(/[A-Z]/)
     expect(@user.email).not_to match(/[A-Z]/)
   end
 
@@ -79,6 +75,15 @@ describe User do
     it "should verify case when password confirmation is nil" do
       @user.password_confirmation = nil
       expect(@user).not_to be_valid
+    end
+
+    context "if user exists" do
+      before { @user.save }
+      let(:existing_user) { User.find_by_email(@user.email) }
+
+      it "should be valid in absence of password and password_confirm fields" do
+        expect(existing_user).to be_valid
+      end
     end
   end
 

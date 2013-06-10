@@ -1,23 +1,27 @@
 class User < ActiveRecord::Base
 
+  USER_LOCATION_VALIDATE_MESSAGE = "Cannot find your location, please verify location fields"
+  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+
+
   attr_accessible :address, :birthday, :city, :country, :email, :full_name,
   :login, :password, :password_confirmation, :state, :zip
 
   has_secure_password
-  acts_as_gmappable :check_process => false
-
-  VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  acts_as_gmappable :check_process => false,
+                    :msg => USER_LOCATION_VALIDATE_MESSAGE
 
   validates :address, :birthday, :city, :country, :email, :full_name, :login,
-  :password, :password_confirmation, :state, :zip, presence: true, length: { maximum: 255 }
+  :state, :zip, presence: true, length: { maximum: 255 }
+
+  validates :password, :password_confirmation, presence: true, :if => :new_record?
 
   validates :email, format: { with: VALID_EMAIL_REGEX }
-  validates :email, :login, uniqueness: { case_sensitive: true }
+  validates :email, uniqueness: { case_sensitive: true }
 
 
   before_save do |user|
     user.email = email.downcase
-    user.login = login.downcase
   end
 
 

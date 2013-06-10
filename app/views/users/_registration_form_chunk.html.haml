@@ -1,0 +1,9 @@
+
+%fieldset.span6
+  %legend Registration info
+
+  - [:login, :email, :password, :password_confirmation].each do |attribute|
+    = render :partial => "shared/form_field",
+             :locals  => { :form  => f,
+                           :field => f.text_field(attribute),
+                           :attribute => attribute }

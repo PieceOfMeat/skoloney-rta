@@ -1,83 +1,74 @@
 = form_for @user, :html => {:class => "form-horizontal"} do |f|
   - if @user.errors.any?
     .error_explanation
-      %h2= pluralize(@user.errors.count, "error")
-      prohibited this user from being saved:
-
+      .alert.alert-error
+        The form contains
+        = pluralize(@user.errors.count, "error")
       %ul
         - @user.errors.full_messages.each do |msg|
           %li= msg
 
-  %fieldset
-    %legend General info
+  - if @user.new_record?
+    = render :partial => "registration_form_chunk", :locals => { :f => f }
 
-    .control-group
-      = f.label :login, :class => 'control-label'
-      .controls
-        = f.text_field :login
-
-    .control-group
-      = f.label :email, :class => 'control-label'
-      .controls
-        = f.text_field :email
-
-    .control-group
-      = f.label :full_name, :class => 'control-label'
-      .controls
-        = f.text_field :full_name
-
-    .control-group
-      = f.label :birthday, :class => 'control-label'
-      .controls
-        = f.date_select :birthday, {}, { :class => "input-small" }
-
-    .control-group
-      = f.label :password, :class => 'control-label'
-      .controls
-        = f.text_field :password
-
-    .control-group
-      = f.label :password_confirmation, :class => 'control-label'
-      .controls
-        = f.text_field :password_confirmation
+  %fieldset.span6
+    %legend Personal info
+    = render :partial => "shared/form_field",
+             :locals  => { :form  => f,
+                           :field => f.text_field(:full_name),
+                           :attribute => :full_name }
+    
+    = render :partial => "shared/form_field",
+             :locals  => { :form  => f,
+                           :field => f.date_select(:birthday, {}, { :class => "input-small" }),
+                           :attribute => :birthday }
 
   .clearfix
-
-  %fieldset
+  %fieldset.span6.user-location
     %legend Location
 
-    .control-group
-      = f.label :country, :class => 'control-label'
-      .controls
-        = f.text_field :country
+    - [:country, :state, :city, :address, :zip].each do |attribute|
+      = render :partial => "shared/form_field",
+             :locals  => { :form  => f,
+                           :field => f.text_field(attribute),
+                           :attribute => attribute }
 
-    .control-group
-      = f.label :state, :class => 'control-label'
-      .controls
-        = f.text_field :state
-
-    .control-group
-      = f.label :city, :class => 'control-label'
-      .controls
-        = f.text_field :city
-
-    .control-group
-      = f.label :address, :class => 'control-label'
-      .controls
-        = f.text_field :address
-
-    .control-group
-      = f.label :zip, :class => 'control-label'
-      .controls
-        = f.text_field :zip
-
-  .clearfix
+    .actions.text-center
+      = f.submit :value => @user.new_record? ? "Sign up!" : "Update profile"
 
   = gmaps(:map_options => { :container_class => "map_container span5",
-                          :auto_zoom => false,
-                          :zoom => 16 },
-        :markers => { :data => map_marker_for(@user)} )
+                            :auto_zoom => false,
+                            :zoom => 16 },
+          :markers => { :data => map_marker_for(@user)} )
 
-  .actions
-    = f.submit
+  :javascript
+    $(function() {
+    Gmaps.map.callback = function() {
+      var geocoder = new google.maps.Geocoder();
+      var map = Gmaps.map.serviceObject
+
+
+      function codeUserAddress() {
+        var address_parts = [];
+        $('fieldset.user-location input').each(function() {
+          address_parts.push(this.value);
+        });
+
+        geocoder.geocode({ 'address': address_parts.join(', ')}, function(results, status) {
+          if (status != google.maps.GeocoderStatus.OK)
+            return;
+
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+            });
+        });
+        
+      }
+
+      $('fieldset.user-location input').change(codeUserAddress);
+    }});
+
+  .clearfix
 

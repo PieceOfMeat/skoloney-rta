@@ -1,0 +1,7 @@
+
+%div{ :class => ['control-group', @user.errors[attribute].any? ? 'error' : nil] }
+  = form.label attribute, :class => 'control-label'
+  .controls
+    = field
+    - if @user.errors[attribute]
+      %span.help-inline= @user.errors[attribute].join ', '
