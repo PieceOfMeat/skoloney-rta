@@ -1,0 +1,44 @@
+
+= gmaps(:map_options => { :container_class => "map_container span5",
+                          :auto_zoom => false,
+                          :zoom => 16 },
+        :markers => { :data => map_marker_for(@user)} )
+
+:javascript
+  $(function() {
+    Gmaps.map.callback = function() {
+      var geocoder = new google.maps.Geocoder();
+      var map = Gmaps.map.serviceObject;
+      var locationInputs = $('fieldset.user-location input[type="text"]');
+
+      function showUserLocation() {
+        var addressParts = [];
+        locationInputs.each(function() {
+          if (this.value) {
+            address_parts.push(this.value);
+          }
+        });
+        
+        showLocationOnMap(addressParts);
+      }
+
+      function showLocationOnMap(address) {
+        geocoder.geocode({address: address_parts.join(', ')}, function(results, status) {
+          if (status != google.maps.GeocoderStatus.OK)
+            return;
+
+            var foundLocation = results[0].geometry.location;
+
+            map.setCenter(foundLocation);
+            Gmaps.map.replaceMarkers([{
+              id: 1,
+              title: "Your location",
+              lat: foundLocation.lat(),
+              lng: foundLocation.lng()
+            }]);
+        });
+      }
+
+      locationInputs.change(codeUserAddress);
+    }
+  });

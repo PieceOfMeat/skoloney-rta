@@ -36,39 +36,8 @@
     .actions.text-center
       = f.submit :value => @user.new_record? ? "Sign up!" : "Update profile"
 
-  = gmaps(:map_options => { :container_class => "map_container span5",
-                            :auto_zoom => false,
-                            :zoom => 16 },
-          :markers => { :data => map_marker_for(@user)} )
-
-  :javascript
-    $(function() {
-    Gmaps.map.callback = function() {
-      var geocoder = new google.maps.Geocoder();
-      var map = Gmaps.map.serviceObject
-
-
-      function codeUserAddress() {
-        var address_parts = [];
-        $('fieldset.user-location input').each(function() {
-          address_parts.push(this.value);
-        });
-
-        geocoder.geocode({ 'address': address_parts.join(', ')}, function(results, status) {
-          if (status != google.maps.GeocoderStatus.OK)
-            return;
-
-            map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: map,
-              position: results[0].geometry.location
-            });
-        });
-        
-      }
-
-      $('fieldset.user-location input').change(codeUserAddress);
-    }});
+  
+  = render :partial => "gmaps_user_location"
 
   .clearfix
 
