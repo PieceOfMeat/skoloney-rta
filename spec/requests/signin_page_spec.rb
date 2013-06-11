@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'capybara/rspec'
 
 describe "signin page" do
 
@@ -10,6 +9,10 @@ describe "signin page" do
 
   it "must have correct title" do
     expect(page).to have_selector('h1', :text => 'Sign in')
+  end
+
+  it "must have password recovery link" do
+    expect(page).to have_selector("a[href='#{password_recovery_path}']", :text => 'Forgot password?')
   end
 
   it "must have login/email and password inputs" do

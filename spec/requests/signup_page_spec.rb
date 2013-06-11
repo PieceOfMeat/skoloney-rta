@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'capybara/rspec'
 
 describe "signup page" do
   before { visit signup_path }

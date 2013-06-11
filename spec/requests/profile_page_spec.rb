@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'capybara/rspec'
 
 describe "profile page" do
     before { visit user_path(user) }

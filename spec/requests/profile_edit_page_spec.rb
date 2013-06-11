@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'capybara/rspec'
 
 describe "profile edit page" do
   let(:user) { FactoryGirl.create(:user) }
