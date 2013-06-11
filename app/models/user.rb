@@ -30,6 +30,10 @@ class User < ActiveRecord::Base
     "#{address}, #{zip}, #{city}, #{state}, #{country}" 
   end
 
+  def gmaps4rails_title
+    "Location of #{full_name}"
+  end
+
   private
     def create_remember_token
       SecureRandom.urlsafe_base64

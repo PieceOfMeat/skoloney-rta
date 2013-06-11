@@ -2,7 +2,7 @@
 = gmaps(:map_options => { :container_class => "map_container span5",
                           :auto_zoom => false,
                           :zoom => 16 },
-        :markers => { :data => map_marker_for(@user)} )
+        :markers => { :data => @user.to_gmaps4rails} )
 
 :javascript
   $(function() {
@@ -15,30 +15,30 @@
         var addressParts = [];
         locationInputs.each(function() {
           if (this.value) {
-            address_parts.push(this.value);
+            addressParts.push(this.value);
           }
         });
         
-        showLocationOnMap(addressParts);
+        showLocationOnMap(addressParts.join(', '));
       }
 
       function showLocationOnMap(address) {
-        geocoder.geocode({address: address_parts.join(', ')}, function(results, status) {
+        geocoder.geocode({address: address}, function(results, status) {
           if (status != google.maps.GeocoderStatus.OK)
             return;
 
-            var foundLocation = results[0].geometry.location;
+          var foundLocation = results[0].geometry.location;
 
-            map.setCenter(foundLocation);
-            Gmaps.map.replaceMarkers([{
-              id: 1,
-              title: "Your location",
-              lat: foundLocation.lat(),
-              lng: foundLocation.lng()
-            }]);
+          map.setCenter(foundLocation);
+          Gmaps.map.replaceMarkers([{
+            id: 1,
+            title: "Your new location",
+            lat: foundLocation.lat(),
+            lng: foundLocation.lng()
+          }]);
         });
       }
 
-      locationInputs.change(codeUserAddress);
+      locationInputs.change(showUserLocation);
     }
   });

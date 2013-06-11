@@ -1,31 +1,38 @@
 %h1 Users List
 
-%table
-  %tr
-    %th Login
-    %th Full name
-    %th Birthday
-    %th Email
-    %th Address
-    %th City
-    %th State
-    %th Country
-    %th Zip
-    %th
-    %th
-    %th
+.row
+  .span12
+    %table
+      %tr
+        %th Login
+        %th Full name
+        %th Birthday
+        %th Email
+        %th Address
+        %th City
+        %th State
+        %th Country
+        %th Zip
+        %th
+        %th
+        %th
 
-  - @users.each do |user|
-    %tr
-      %td= user.login
-      %td= user.full_name
-      %td= user.birthday
-      %td= user.email
-      %td= user.address
-      %td= user.city
-      %td= user.state
-      %td= user.country
-      %td= user.zip
-      %td= link_to 'Show', user
-      %td= link_to 'Edit', edit_user_path(user)
-      %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+      - @users.each do |user|
+        %tr
+          %td= user.login
+          %td= user.full_name
+          %td= user.birthday
+          %td= user.email
+          %td= user.address
+          %td= user.city
+          %td= user.state
+          %td= user.country
+          %td= user.zip
+          %td= link_to 'Show', user
+          %td= link_to 'Edit', edit_user_path(user)
+          %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+
+%h4 Users locations
+
+= gmaps(:map_options => { :container_class => "map_container span5" },
+        :markers => { :data => User.all.to_gmaps4rails })
