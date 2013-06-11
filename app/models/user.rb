@@ -22,10 +22,16 @@ class User < ActiveRecord::Base
 
   before_save do |user|
     user.email = email.downcase
+    user.remember_token = create_remember_token
   end
 
 
   def gmaps4rails_address
     "#{address}, #{zip}, #{city}, #{state}, #{country}" 
   end
+
+  private
+    def create_remember_token
+      SecureRandom.urlsafe_base64
+    end
 end

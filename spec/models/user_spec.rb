@@ -8,7 +8,7 @@ describe User do
     expect(@user).to respond_to(:address, :birthday, :city, :country, :email, 
                                 :full_name, :login, :password, 
                                 :password_confirmation, :password_digest,
-                                :state, :zip, :authenticate)
+                                :state, :zip, :authenticate, :remember_token)
   end
 
   it "should downcase email upon saving" do
@@ -92,12 +92,16 @@ describe User do
     before { @user.save }
     let(:found_user) { User.find_by_email(@user.email) }
 
-    it "with correct password" do
+    it "must pass with correct password" do
       expect(found_user.authenticate("123456")).to be_true
     end
 
-    it "with incorrect password" do
+    it "must not pass with incorrect password" do
       expect(found_user.authenticate("12345")).not_to be_true
+    end
+
+    it "must create user token upon saving" do
+      expect(@user.remember_token).not_to be_empty
     end
   end
 end

@@ -56,7 +56,6 @@ describe "signup page" do
       )
     end
 
-
   end
 
 end
