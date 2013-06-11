@@ -5,6 +5,11 @@ describe "profile edit page" do
   let(:user) { FactoryGirl.create(:user) }
   before { visit edit_user_path(user) }
 
+    it "must have appropriate header and map" do
+      expect(page).to have_selector('h1', :text => 'Edit profile')
+      expect(page).to have_selector('div.map_container')
+    end
+
     it "must not have login, email, password and pass_confirm fields" do
       expect(page).not_to have_selector('label', :text => 'Email')
       expect(page).not_to have_selector('label', :text => 'Login')
