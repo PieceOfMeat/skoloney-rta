@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
 
   USER_PROFILE_CREATED_MESSAGE = "Your profile was successfully created"
+  USER_PROFILE_UPDATED_MESSAGE = "Your profile was successfully updated"
+  NONEXISTENT_LOGIN_EMAIL_MESSAGE = "Sorry, we cannot find such login or email in out database"
+  PASSWORD_RECOVERY_EMAIL_SENT_MESSAGE = "Please, check your email to recover your password"
 
   # GET /users
   # GET /users.json
@@ -63,7 +66,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update_attributes(params[:user])
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.html { redirect_to @user, notice: USER_PROFILE_UPDATED_MESSAGE }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -81,6 +84,25 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url }
       format.json { head :no_content }
+    end
+  end
+
+  def password_recovery
+  end
+
+  def perform_password_recovery
+    user = User.find_by_email_or_login(params[:user][:login])
+    respond_to do |format|
+      if user
+        user.recover_password
+
+        format.html { redirect_to signin_path,
+                      :notice => PASSWORD_RECOVERY_EMAIL_SENT_MESSAGE }
+      else
+
+        format.html { redirect_to password_recovery_path,
+                      :notice => NONEXISTENT_LOGIN_EMAIL_MESSAGE }
+      end
     end
   end
 end

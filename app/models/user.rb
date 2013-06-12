@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   USER_LOCATION_VALIDATE_MESSAGE = "Cannot find your location, please verify location fields"
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
-
   attr_accessible :address, :birthday, :city, :country, :email, :full_name,
   :login, :password, :password_confirmation, :state, :zip
 
@@ -32,6 +31,20 @@ class User < ActiveRecord::Base
 
   def gmaps4rails_title
     "Location of #{full_name}"
+  end
+
+  def recover_password
+    new_password = ('a'..'z').to_a.shuffle[0,8].join
+    if update_attributes(:password => new_password,
+                         :password_confirmation => new_password)
+    
+      UserMailer.password_recovery(self).deliver
+    end
+  end
+
+  def self.find_by_email_or_login(login)
+    login = login.downcase
+    User.find_by_email(login) || User.first(:conditions => ["lower(login) = ?", login])
   end
 
   private

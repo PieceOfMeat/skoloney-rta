@@ -1,23 +1,26 @@
 %h1 Sign in
 
+- if notice
+  .alert.alert-error= notice
+
 = form_for :session,
            :url => sessions_path,
-           :html => { :class => "form-horizontal text-center" } do |f|
-
-  - if notice
-    .alert.alert-error= notice
+           :html => { :class => "form-horizontal span6" } do |f|
   
-  %div.control-group
+  .control-group
     = f.label :login, "Login/Email", :class => 'control-label'
-    = f.text_field :login
+    .controls= f.text_field :login
 
-  %div.control-group
+  .control-group
     = f.label :password, :class => 'control-label'
-    = f.password_field :password
+    .controls= f.password_field :password
 
-  %p
+  %p.text-center
     =f.submit "Sign in", class: "btn btn-primary"
 
+.clearfix
+
 %p
-  New user?
-  = link_to "Sign up now!", signup_path
+  = link_to "New user?", signup_path
+%p
+  = link_to "Forgot your password?", password_recovery_path

@@ -104,4 +104,40 @@ describe User do
       expect(@user.remember_token).not_to be_empty
     end
   end
+
+  context ".find_by_email_or_login method" do
+    before { @user.save }
+
+    it "must find user by email" do
+      user = User.find_by_email_or_login('SerGey.KoloneY@gmail.com')
+      expect(user).to be_instance_of(User)
+    end
+
+    it "must find user by login" do
+      user = User.find_by_email_or_login('PieCeOfmEat')
+      expect(user).to be_instance_of(User)
+    end
+  end
+
+  describe "password recovery" do
+ 
+    before do
+      ActionMailer::Base.deliveries = []
+      @user.save
+      @user.recover_password
+    end
+
+    it "should change user password and send an email" do
+      @user.reload
+      expect(@user.authenticate('123456')).not_to be_true
+    end
+
+    it "should send user an email" do
+      expect(ActionMailer::Base.deliveries).not_to be_empty
+
+      mail = ActionMailer::Base.deliveries.first
+      expect(mail.to).to be == [@user.email]
+      expect(mail.body).to include(@user.password)
+    end
+  end
 end
