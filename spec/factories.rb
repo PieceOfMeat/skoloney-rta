@@ -13,5 +13,6 @@ FactoryGirl.define do
     password_confirmation "123456"
     state     "Donetsk"
     zip       "83062"
+    role      "common"
   end
 end

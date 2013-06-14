@@ -6,9 +6,23 @@ describe User do
 
   it "should contain attributes" do
     expect(@user).to respond_to(:address, :birthday, :city, :country, :email, 
-                                :full_name, :login, :password, 
+                                :full_name, :login, :password, :role,
                                 :password_confirmation, :password_digest,
                                 :state, :zip, :authenticate, :remember_token)
+  end
+
+  it "should answer to role checks" do
+    expect(@user).to respond_to(:admin?, :moderator?, :common?)
+  end
+
+  it "should provide correct role_checks" do
+    expect(@user).to be_common
+
+    @user.role = User::ADMIN_ROLE
+    expect(@user).to be_admin
+
+    @user.role = User::MODERATOR_ROLE
+    expect(@user).to be_moderator
   end
 
   it "should downcase email upon saving" do
@@ -21,6 +35,11 @@ describe User do
 
     it "should pass for valid user" do
       expect(@user).to be_valid
+    end
+
+    it "should restrict values for user role" do
+      @user.role = "superadmin"
+      expect(@user).not_to be_valid
     end
 
     it "should verify presence of login and email" do
