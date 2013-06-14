@@ -12,7 +12,7 @@ describe "signin page" do
   end
 
   it "must have password recovery link" do
-    expect(page).to have_selector("a[href='#{password_recovery_path}']", :text => 'Forgot password?')
+    expect(page).to have_selector("a[href='#{password_recovery_path}']", :text => 'Forgot your password?')
   end
 
   it "must have login/email and password inputs" do
@@ -22,9 +22,9 @@ describe "signin page" do
   end
 
   it "must show errors if provided incorrect login/password" do
-    fill_in 'Login/Email', :with => 'Pieceofmeat'
-    fill_in 'Password', :with => 'foo'
-    click_on "Sign in"
+    fill_in 'Login/Email', :with => '123'
+    fill_in 'Password', :with => '123'
+    click_button "Sign in"
 
     expect(page).to have_selector('h1', :text => 'Sign in')
     expect(page).to have_selector(
@@ -35,9 +35,9 @@ describe "signin page" do
 
   context "correct authorisation" do
     before do
-      fill_in 'Login/Email', :with => 'Pieceofmeat'
-      fill_in 'Password', :with => '123456'
-      click_on "Sign in"
+      fill_in 'Login/Email', :with => @user.login
+      fill_in 'Password', :with => @user.password
+      click_button "Sign in"
     end
 
     it "must redirect user to his profile page" do

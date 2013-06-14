@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
       redirect_to user
     else
       respond_to do |format|
-        format.html { redirect_to 'new', :notice => INVALID_LOGIN_PASSWORD_MESSAGE }
+        format.html { redirect_to signin_path, :notice => INVALID_LOGIN_PASSWORD_MESSAGE }
       end
     end
   end

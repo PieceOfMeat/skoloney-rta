@@ -3,6 +3,7 @@ require 'spec_helper'
 describe "Password recovery page" do
   
   before do
+    ActionMailer::Base.deliveries = []
     @user = FactoryGirl.create :user
     visit password_recovery_path
   end

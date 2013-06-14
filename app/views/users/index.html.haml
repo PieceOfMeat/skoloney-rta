@@ -2,35 +2,46 @@
 
 .row
   .span12
-    %table
+    %table.table
       %tr
         %th Login
         %th Full name
         %th Birthday
-        %th Email
         %th Address
-        %th City
-        %th State
-        %th Country
-        %th Zip
         %th
         %th
-        %th
+
+        - if admin?
+          %th
+          %th
 
       - @users.each do |user|
         %tr
           %td= user.login
           %td= user.full_name
-          %td= user.birthday
-          %td= user.email
-          %td= user.address
-          %td= user.city
-          %td= user.state
-          %td= user.country
-          %td= user.zip
-          %td= link_to 'Show', user
-          %td= link_to 'Edit', edit_user_path(user)
-          %td= link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+          %td= user.birthday.strftime('%d.%m.%Y')
+          %td= [user.country, user.city, user.address].join ', '
+          %td
+            = link_to content_tag('i', '', :class => 'icon-envelope'),
+                      "mailto:#{user.email}",
+                      :title => "Email to #{user.full_name}"
+          %td
+            = link_to content_tag('i', '', :class => 'icon-search'),
+                      user,
+                      :title => 'View profile'
+          
+          - if admin?
+
+            %td
+              = link_to content_tag('i', '', :class => 'icon-edit'),
+                        edit_user_path(user),
+                        :title => 'Edit'
+            %td
+              = link_to content_tag('i', '', :class => 'icon-remove'),
+                        user,
+                        :method => :delete,
+                        :title => 'Delete',
+                        :data => { confirm: 'Are you sure?' }
 
 %h4 Users locations
 
