@@ -8,7 +8,7 @@ describe "signin page" do
   end
 
   it "must have correct title" do
-    expect(page).to have_selector('h1', :text => 'Sign in')
+    expect(page).to have_selector('h1', :text => 'Sign In')
   end
 
   it "must have password recovery link" do
@@ -26,7 +26,7 @@ describe "signin page" do
     fill_in 'Password', :with => '123'
     click_button "Sign in"
 
-    expect(page).to have_selector('h1', :text => 'Sign in')
+    expect(page).to have_selector('h1', :text => 'Sign In')
     expect(page).to have_selector(
       'div.alert.alert-error',
       :text => SessionsController::INVALID_LOGIN_PASSWORD_MESSAGE

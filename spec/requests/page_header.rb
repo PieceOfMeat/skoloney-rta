@@ -14,7 +14,7 @@ describe 'Auth rights' do
 
     it "should not see links to user profile and signout" do
       expect(page).not_to have_link('Profile')
-      expect(page).not_to have_link('Settings')
+      expect(page).not_to have_link('Edit profile')
       expect(page).not_to have_link('Sign out')
     end
 
@@ -32,7 +32,7 @@ describe 'Auth rights' do
 
     it "should see links to list of users, user profile and signout" do
       expect(page).to have_link('Profile')
-      expect(page).to have_link('Settings')
+      expect(page).to have_link('Edit profile')
       expect(page).to have_link('Sign out')
       expect(page).to have_link('Users list')
     end

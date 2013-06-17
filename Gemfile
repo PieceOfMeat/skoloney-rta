@@ -7,6 +7,7 @@ gem 'bootstrap-sass'
 gem 'haml-rails'
 gem 'bcrypt-ruby'
 gem 'gmaps4rails'
+gem 'cancan'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

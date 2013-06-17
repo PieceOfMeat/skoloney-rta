@@ -1,13 +1,11 @@
 class UsersController < ApplicationController
 
-  before_filter :signed_in_user, only: [:edit, :update, :destroy]
-  before_filter :correct_user,   only: [:edit, :update, :destroy]
+  load_and_authorize_resource
 
   USER_PROFILE_CREATED_MESSAGE = "Your profile was successfully created"
   USER_PROFILE_UPDATED_MESSAGE = "Your profile was successfully updated"
   NONEXISTENT_LOGIN_EMAIL_MESSAGE = "Sorry, we cannot find such login or email in out database"
   PASSWORD_RECOVERY_EMAIL_SENT_MESSAGE = "Please, check your email to recover your password"
-  SIGNIN_NEEDED_MESSAGE = "You need to sign in to perform this operation"
 
   # GET /users
   # GET /users.json
@@ -109,16 +107,4 @@ class UsersController < ApplicationController
       end
     end
   end
-
-
-  private
-
-    def signed_in_user
-      redirect_to signin_path, :notice => SIGNIN_NEEDED_MESSAGE unless signed_in?
-    end
-
-    def correct_user
-      @user = User.find(params[:id])
-      redirect_to(root_path) unless current_user?(@user)
-    end
 end

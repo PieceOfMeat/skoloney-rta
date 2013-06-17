@@ -9,7 +9,7 @@ describe "profile edit page" do
   end
 
   it "must have appropriate header and map" do
-    expect(page).to have_selector('h1', :text => 'Edit profile')
+    expect(page).to have_selector('h1', :text => 'Edit Profile')
     expect(page).to have_selector('div.map_container')
   end
 
@@ -23,12 +23,12 @@ describe "profile edit page" do
 
   it "must have 'Update profile' button instead of 'Sign up!'" do
     expect(page).not_to have_selector('input[value="Sign up!"]')
-    expect(page).to have_selector('input[value="Update profile"]')
+    expect(page).to have_selector('input[value="Edit Profile"]')
   end
 
   it "must change user attributes upon saving" do
     fill_in "Full name", :with => "Sergey"
-    click_on "Update profile"
+    click_button "Edit Profile"
     expect(@user.reload.full_name).to be == "Sergey"
   end
 end
