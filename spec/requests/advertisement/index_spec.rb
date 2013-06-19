@@ -3,13 +3,13 @@ require 'spec_helper'
 describe 'Advertisement listing page' do
 
   def expect_to_have_management_links
-    expect(page).to have_selector('#adslist li a', :text => 'Edit')
-    expect(page).to have_selector('#adslist li a', :text => 'Destroy')
+    expect(page).to have_selector('#adslist a', :text => 'Edit')
+    expect(page).to have_selector('#adslist a', :text => 'Destroy')
   end
 
   def expect_not_to_have_management_links
-    expect(page).not_to have_selector('#adslist li a', :text => 'Edit')
-    expect(page).not_to have_selector('#adslist li a', :text => 'Destroy')
+    expect(page).not_to have_selector('#adslist a', :text => 'Edit')
+    expect(page).not_to have_selector('#adslist a', :text => 'Destroy')
   end
 
   before(:all) do
@@ -22,9 +22,9 @@ describe 'Advertisement listing page' do
     before { visit advertisements_path }
 
     it "should contain 10 ads per page" do
-      expect(page).to have_selector('#adslist li', :text => 'Post 1')
-      expect(page).to have_selector('#adslist li', :text => "Post #{AdvertisementsController::PER_PAGE}")
-      expect(page).not_to have_selector('#adslist li', :text => "Post #{AdvertisementsController::PER_PAGE + 1}")
+      expect(page).to have_selector('#adslist div.adv-content', :text => 'Post 1')
+      expect(page).to have_selector('#adslist div.adv-content', :text => "Post #{AdvertisementsController::PER_PAGE}")
+      expect(page).not_to have_selector('#adslist div.adv-content', :text => "Post #{AdvertisementsController::PER_PAGE + 1}")
     end
 
     it "should contain pagination" do
@@ -36,11 +36,15 @@ describe 'Advertisement listing page' do
     end
 
     it "should contain link to show post" do
-      expect(page).to have_selector('#adslist li a', :text => 'Show')
+      expect(page).to have_selector('#adslist a', :text => 'Show')
     end
 
     it "should not contain link to new advertisement" do
       expect(page).not_to have_link('New Advertisement')
+    end
+
+    it "should contain link to creator of ad" do
+      expect(page).to have_selector("div.adv-info a", :text => @user.login)
     end
   end
 

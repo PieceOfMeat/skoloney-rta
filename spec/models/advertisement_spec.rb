@@ -9,6 +9,7 @@ describe Advertisement do
 
   it "should respond to attributes" do
     expect(@advert).to respond_to(:content, :user)
+    expect(@advert).to have_attached_file(:picture)
   end
 
   it "should have user attribute" do
@@ -23,6 +24,7 @@ describe Advertisement do
 
   context "validation" do
     it "should pass" do
+      p @advert.picture
       expect(@advert).to be_valid
     end
 
@@ -35,6 +37,16 @@ describe Advertisement do
       @advert.content = ''
       expect(@advert).not_to be_valid
     end
-  end
 
+    example "for picture file" do
+      expect(@advert).to validate_attachment_content_type(:picture)
+              .allowing('image/png', 'image/gif', 'image/jpeg')
+              .rejecting('text/plain', 'text/xml')
+
+      expect(@advert).to validate_attachment_size(:picture)
+              .less_than(500.kilobytes)
+    end
+
+
+  end
 end

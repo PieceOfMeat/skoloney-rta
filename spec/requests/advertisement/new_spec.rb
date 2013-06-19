@@ -17,15 +17,20 @@ describe 'New advertisement page' do
     it "should contain proper header and fields" do
       expect(page).to have_selector('h1', :text => 'New Advertisement')
       expect(page).to have_selector('label', :text => 'Content')
+      expect(page).to have_selector('input[type="file"]')
       expect(page).to have_selector('input[value="Save"]')
     end
 
     it "should create new advertisement for current user" do
       fill_in 'Content', :with => 'New advertisement text'
+      attach_file('Picture', "#{Rails.root}/spec/files/valid_ad_picture.jpg")
       click_button 'Save'
 
       expect(@user.advertisements.count).to be == 1
-      expect(@user.advertisements[0].content).to be == 'New advertisement text'
+      ad = @user.advertisements[0]
+      expect(ad.content).to be == 'New advertisement text'
+      expect(ad).to have_attached_file(:picture)
+      expect(ad.picture.url.include? 'valid_ad_picture').to be_true
       expect(current_path).to be == advertisement_path(@user.advertisements[0])
     end
 

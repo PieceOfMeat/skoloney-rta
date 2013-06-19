@@ -13,11 +13,6 @@ describe 'Edit advertisement page' do
     expect(page).to have_selector('.alert', :text => ApplicationController::NOT_AUTHENTICATED_MESSAGE)
   end
 
-  it "should have appropriate header" do
-    visit edit_advertisement_path(@ad)
-    expect(page).to have_selector('h1', 'Edit Advertisement')
-  end
-
   context "for authenticated user" do
     before do
       sign_in @user
@@ -27,6 +22,7 @@ describe 'Edit advertisement page' do
     it "should contain proper header and fields" do
       expect(page).to have_selector('h1', :text => 'Edit Advertisement')
       expect(page).to have_selector('label', :text => 'Content')
+      expect(page).to have_selector('label', :text => 'Picture')
       expect(page).to have_selector('input[value="Save"]')
     end
 

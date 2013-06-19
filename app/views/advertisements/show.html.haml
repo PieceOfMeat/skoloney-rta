@@ -1,9 +1,9 @@
 %h1 Advertisement
 
+
+%img.adv-big-picture{ :src => @advertisement.picture.url }
+.clearfix
+
 = @advertisement.content
 
-.commands
-  - if can? :manage, @advertisement
-    = link_to 'Edit', edit_advertisement_path(@advertisement)
-    \|
-    = link_to 'Destroy', @advertisement, :method => :delete, :data => { :confirm => 'Are you sure?' }
+= render :partial => "sidebar", :locals => { :ad => @advertisement }

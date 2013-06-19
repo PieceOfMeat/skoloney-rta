@@ -3,13 +3,13 @@ require 'spec_helper'
 describe 'Advertisement show page' do
 
   def expect_to_have_management_links
-    expect(page).to have_selector('.commands a', :text => 'Edit')
-    expect(page).to have_selector('.commands a', :text => 'Destroy')
+    expect(page).to have_selector('.adv-commands a', :text => 'Edit')
+    expect(page).to have_selector('.adv-commands a', :text => 'Destroy')
   end
 
   def expect_not_to_have_management_links
-    expect(page).not_to have_selector('.commands a', :text => 'Edit')
-    expect(page).not_to have_selector('.commands a', :text => 'Destroy')
+    expect(page).not_to have_selector('.adv-commands a', :text => 'Edit')
+    expect(page).not_to have_selector('.adv-commands a', :text => 'Destroy')
   end
 
   before do
@@ -33,6 +33,13 @@ describe 'Advertisement show page' do
       expect_not_to_have_management_links
     end
 
+    it "must have a big ad image" do
+      expect(page).to have_selector('img.adv-big-picture')
+    end
+
+    it "must have link to owner of ad" do
+      expect(page).to have_selector("div.adv-info a", :text => @user.login)
+    end
   end
 
   context "for authenticated user" do

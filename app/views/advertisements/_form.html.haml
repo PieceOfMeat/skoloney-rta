@@ -1,4 +1,4 @@
-= form_for @advertisement, :html => {:class => "form-horizontal"} do |f|
+= form_for @advertisement, :html => {:class => "form-horizontal", :multipart => true} do |f|
   - if @advertisement.errors.any?
     .error_explanation
       .alert.alert-error
@@ -14,6 +14,20 @@
       = f.text_area(:content, :class => "input-xxlarge", :size => '50x7')
       - if @advertisement.errors[:content]
         %span.help-inline= @advertisement.errors[:content].join ', '
+
+  %div{ :class => ['control-group', @advertisement.errors[:picture].any? ? 'error' : nil] }
+    = f.label :picture, :class => 'control-label'
+    .controls
+      = f.file_field :picture
+      - if @advertisement.errors[:picture]
+        %span.help-inline= @advertisement.errors[:picture].join ', '
+  
+  - if @advertisement.picture.exists?
+    %div.control-group
+      %label.control-label
+        Current picture
+      .controls
+        = image_tag @advertisement.picture.url(:medium)
 
   .actions.text-center
     = f.submit 'Save'

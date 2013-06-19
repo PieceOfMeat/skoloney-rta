@@ -1,5 +1,3 @@
-
-
 FactoryGirl.define do
   factory :user do
     address   "Sanatornaya 9/2"
@@ -16,7 +14,8 @@ FactoryGirl.define do
     role      "common"
   end
 
-  factory :advertisement do
+  factory :advertisement do |f|
+
     sequence(:content)  { |n| "Post #{n}" }
     sequence(:created_at) { |n| n.hours.ago }
     user

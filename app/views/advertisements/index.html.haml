@@ -1,17 +1,13 @@
 %h1 Advertisement Board
 
 = will_paginate
-
-%ul#adslist.span6.offset3
+#adslist.span10
   - @advertisements.each do |ad|
-    %li
-      = ad.content
-      %br
-      = link_to 'Show', ad
-      - if can? :update, ad
-        = link_to 'Edit', edit_advertisement_path(ad)
-      - if can? :destroy, ad
-        = link_to 'Destroy', ad, :method => :delete, :data => { :confirm => 'Are you sure?' }
+    %div{ :class => ['row', 'adv-body', "adv-#{ad.id}"] }
+      .span1.adv-picture= link_to image_tag(ad.picture.url(:thumb)), ad
+      .span9
+        .adv-content= ad.content
+        = render :partial => "sidebar", :locals => { :ad => ad }
 
 .clearfix
 = will_paginate

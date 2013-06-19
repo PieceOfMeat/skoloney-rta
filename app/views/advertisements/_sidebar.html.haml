@@ -1,0 +1,12 @@
+.adv-sidebar.pull-right.text-right
+  .adv-info
+    = time_ago_in_words ad.created_at
+    ago (
+    =link_to ad.user.login, ad.user
+    )
+  .adv-commands
+    = link_to 'Show', ad
+    - if can? :update, ad
+      = link_to 'Edit', edit_advertisement_path(ad)
+    - if can? :destroy, ad
+      = link_to 'Destroy', ad, :method => :delete, :data => { :confirm => 'Are you sure?' }

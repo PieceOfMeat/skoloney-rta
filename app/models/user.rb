@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
 
   has_secure_password
   has_many :advertisements, :dependent => :destroy
+
   acts_as_gmappable :check_process => false,
                     :msg => USER_LOCATION_VALIDATE_MESSAGE
 
