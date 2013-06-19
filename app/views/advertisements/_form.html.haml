@@ -1,0 +1,19 @@
+= form_for @advertisement, :html => {:class => "form-horizontal"} do |f|
+  - if @advertisement.errors.any?
+    .error_explanation
+      .alert.alert-error
+        The form contains
+        = pluralize(@advertisement.errors.count, "error")
+      %ul
+        - @advertisement.errors.full_messages.each do |msg|
+          %li= msg
+
+  %div{ :class => ['control-group', @advertisement.errors[:content].any? ? 'error' : nil] }
+    = f.label :content, :class => 'control-label'
+    .controls
+      = f.text_area(:content, :class => "input-xxlarge", :size => '50x7')
+      - if @advertisement.errors[:content]
+        %span.help-inline= @advertisement.errors[:content].join ', '
+
+  .actions.text-center
+    = f.submit 'Save'

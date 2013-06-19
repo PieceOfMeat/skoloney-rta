@@ -8,7 +8,8 @@ describe User do
     expect(@user).to respond_to(:address, :birthday, :city, :country, :email, 
                                 :full_name, :login, :password, :role,
                                 :password_confirmation, :password_digest,
-                                :state, :zip, :authenticate, :remember_token)
+                                :state, :zip, :authenticate, :remember_token,
+                                :advertisements)
   end
 
   it "should answer to role checks" do
@@ -157,6 +158,24 @@ describe User do
       mail = ActionMailer::Base.deliveries.first
       expect(mail.to).to be == [@user.email]
       expect(mail.body).to include(@user.password)
+    end
+  end
+
+  describe "adverts" do
+    example "should be deleted upon user destroy" do
+      @user.save
+
+      FactoryGirl.create :advertisement, :user => @user, :created_at => 1.day.ago
+      FactoryGirl.create :advertisement, :user => @user, :created_at => 1.hour.ago
+      @user.reload
+
+      adverts = @user.advertisements.dup
+      @user.destroy
+
+      adverts.should_not be_empty
+      adverts.each do |advert|
+        expect(Advertisement.find_by_id(advert.id)).to be_nil
+      end
     end
   end
 end

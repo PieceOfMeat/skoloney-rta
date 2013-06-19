@@ -1,0 +1,9 @@
+%h1 Advertisement
+
+= @advertisement.content
+
+.commands
+  - if can? :manage, @advertisement
+    = link_to 'Edit', edit_advertisement_path(@advertisement)
+    \|
+    = link_to 'Destroy', @advertisement, :method => :delete, :data => { :confirm => 'Are you sure?' }

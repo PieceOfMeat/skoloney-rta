@@ -11,8 +11,9 @@ class Ability
 
     can :signin, :session if user.new_record?
     can :signout, :session unless user.new_record?
-
     can :manage, User, :id => user.id
+
+    can :manage, Advertisement, :user_id => user.id unless user.new_record?
     
     #can :manage, User, :id => user.id
     #

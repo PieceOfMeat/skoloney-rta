@@ -15,4 +15,10 @@ FactoryGirl.define do
     zip       "83062"
     role      "common"
   end
+
+  factory :advertisement do
+    sequence(:content)  { |n| "Post #{n}" }
+    sequence(:created_at) { |n| n.hours.ago }
+    user
+  end
 end
