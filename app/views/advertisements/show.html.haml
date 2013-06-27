@@ -1,9 +1,10 @@
-%h1 Advertisement
+%h1
+  Advertisement
+  = "\##{@advertisement.id}"
 
 
-%img.adv-big-picture{ :src => @advertisement.picture.url }
-.clearfix
+%img.adv-big-picture.pull-left{ :src => @advertisement.picture.url(:medium) }
 
-= @advertisement.content
+= sanitize(textilize(@advertisement.content))
 
 = render :partial => "sidebar", :locals => { :ad => @advertisement }

@@ -1,6 +1,7 @@
 class Advertisement < ActiveRecord::Base
   attr_accessible :content, :picture
   belongs_to :user
+  default_scope order: 'advertisements.created_at DESC'
 
   has_attached_file :picture,
                     :styles => { :medium => "150x150>",

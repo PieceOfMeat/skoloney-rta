@@ -23,6 +23,7 @@ describe 'Advertisement show page' do
 
     it "must have appropriate heading" do
       expect(page).to have_selector('h1', :text => 'Advertisement')
+      expect(page).to have_selector('h1', :text => @ad.id.to_s)
     end
 
     it "must have advertisement text" do

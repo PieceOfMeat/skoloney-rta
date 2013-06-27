@@ -6,7 +6,8 @@
     %div{ :class => ['row', 'adv-body', "adv-#{ad.id}"] }
       .span1.adv-picture= link_to image_tag(ad.picture.url(:thumb)), ad
       .span9
-        .adv-content= ad.content
+        .adv-id= link_to "\##{ad.id}", ad
+        .adv-content= truncate_html(sanitize(textilize(ad.content)), :length => 160)
         = render :partial => "sidebar", :locals => { :ad => ad }
 
 .clearfix

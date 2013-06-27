@@ -14,6 +14,10 @@
       = f.text_area(:content, :class => "input-xxlarge", :size => '50x7')
       - if @advertisement.errors[:content]
         %span.help-inline= @advertisement.errors[:content].join ', '
+      %div.hint
+        This content supports
+        = link_to 'Textile', 'http://en.wikipedia.org/wiki/Textile_(markup_language)'
+        markup
 
   %div{ :class => ['control-group', @advertisement.errors[:picture].any? ? 'error' : nil] }
     = f.label :picture, :class => 'control-label'
